@@ -18,14 +18,16 @@ The Flask application contains two main routes:
 Both routes incorporate logging for tracking requests, responses, and the current state of the application.
 
 ## Kubernetes Deployment
-``
+
 The project is designed to be deployed on Kubernetes. It includes the following YAML files for setting up the Kubernetes
 environment:
 
-- **[Pod Manifest](flask_pod.yaml)**: Defines a single pod to run the Flask application. 
-- **[Deployment Manifest](flask_deploy.yaml)**: Configures the deployment for managing replicas and maintaining the Flask application in a
+- **[Pod Manifest](flask_pod.yaml)**: Defines a single pod to run the Flask application.
+- **[Deployment Manifest](flask_deploy.yaml)**: Configures the deployment for managing replicas and maintaining the
+  Flask application in a
   running state.
-- **[Service Manifest](flask_service_node_port.yaml)**: Exposes the Flask application via a `NodePort` service to allow access from outside the
+- **[Service Manifest](flask_service_node_port.yaml)**: Exposes the Flask application via a `NodePort` service to allow
+  access from outside the
   Kubernetes cluster.
 
 ### Kubernetes Setup Instructions
@@ -39,7 +41,15 @@ environment:
    kubectl apply -f service.yaml
    ```
 
-To know more about 
+---
+
+### Issues Experienced:
+
+I have noted the issues which I faced into a
+[file](issues_solutions)
+
+### Some useful content
+
 - [kubectl commands](useful_files/KUBECTL_COMMANDS.md)
 - [minikube commands](useful_files/MINIKUBE_COMMANDS.md)
 - [docker commands](useful_files/DOCKER_COMMANDS.md)
