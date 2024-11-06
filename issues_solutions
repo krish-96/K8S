@@ -1,10 +1,11 @@
-1.  After creating the service od NodePort type, I was unable to access from my local
+1.  After creating the service of the type NodePort, I was unable to access from my local
     I verified the application by doing minikube ssh, it's working, but when I use the nodePort from the browser or
     from my local terminal using curl, It says
         curl: (28) Failed to connect to 192.168.49.2 port 30007 after 21048 ms: Could not connect to server
 
     Solution 1:
     ==========
+        >>> kubectl port-forward svc/serviceName outsidePort:innerPort
         >>> kubectl port-forward svc/my-service 8080:80
 
         Krishna@SweetHeart MINGW64 ~/Desktop/Projects/flask_app (main)
@@ -17,6 +18,7 @@
 
     Solution 2:
     ===========
+        >>> minikube service serviceName
         >>> minikube service nginx-service
 
         Krishna@SweetHeart MINGW64 ~/Desktop/Projects/flask_app (main)
@@ -37,6 +39,7 @@
 
     Solution 3:
     ===========
+        >>>  minikube service serviceName --url
         >>>  minikube service nginx-service --url
 
         Krishna@SweetHeart MINGW64 ~/Desktop/Projects/flask_app (main)
