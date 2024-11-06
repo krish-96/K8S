@@ -43,4 +43,4 @@ To know more about
 - [kubectl commands](useful_files/KUBECTL_COMMANDS.md)
 - [minikube commands](useful_files/MINIKUBE_COMMANDS.md)
 - [docker commands](useful_files/DOCKER_COMMANDS.md)
-- [kubernetes service types](useful_files/SERVICES.md)
+- [kubernetes service types](useful_files/KUBERNETES_SERVICES.md)
