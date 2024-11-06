@@ -1,0 +1,48 @@
+1.  After creating the service od NodePort type, I was unable to access from my local
+    I verified the application by doing minikube ssh, it's working, but when I use the nodePort from the browser or
+    from my local terminal using curl, It says
+        curl: (28) Failed to connect to 192.168.49.2 port 30007 after 21048 ms: Could not connect to server
+
+    Solution 1:
+    ==========
+        >>> kubectl port-forward svc/my-service 8080:80
+
+        Krishna@SweetHeart MINGW64 ~/Desktop/Projects/flask_app (main)
+        $ kubectl port-forward svc/my-service 8080:80
+        Forwarding from 127.0.0.1:8080 -> 80
+        Forwarding from [::1]:8080 -> 80
+        Handling connection for 8080
+        Handling connection for 8080
+        Handling connection for 8080
+
+    Solution 2:
+    ===========
+        >>> minikube service nginx-service
+
+        Krishna@SweetHeart MINGW64 ~/Desktop/Projects/flask_app (main)
+        $minikube service nginx-service
+        |-----------|---------------|-------------|---------------------------|
+        | NAMESPACE |     NAME      | TARGET PORT |            URL            |
+        |-----------|---------------|-------------|---------------------------|
+        | default   | nginx-service |          80 | http://192.168.49.2:30007 |
+        |-----------|---------------|-------------|---------------------------|
+        🏃  Starting tunnel for service nginx-service.
+        |-----------|---------------|-------------|------------------------|
+        | NAMESPACE |     NAME      | TARGET PORT |          URL           |
+        |-----------|---------------|-------------|------------------------|
+        | default   | nginx-service |             | http://127.0.0.1:53606 |
+        |-----------|---------------|-------------|------------------------|
+        🎉  Opening service default/nginx-service in default browser...
+        ❗  Because you are using a Docker driver on windows, the terminal needs to be open to run it.
+
+    Solution 3:
+    ===========
+        >>>  minikube service nginx-service --url
+
+        Krishna@SweetHeart MINGW64 ~/Desktop/Projects/flask_app (main)
+        $ minikube service nginx-service --url
+        http://127.0.0.1:53917
+        ❗  Because you are using a Docker driver on windows, the terminal needs to be open to run it.
+
+    ====== we can use  any of the above solutions, I have taken these solutions from various pages ======
+    ** https://stackoverflow.com/questions/63600378/cant-access-minikube-service-using-nodeport-from-host-on-mac
