@@ -40,7 +40,7 @@ environment:
    ```
 
 To know more about 
-- [kubectl commands](KUBECTL_COMMANDS.md)
-- [minikube commands](MINIKUBE_COMMANDS.md)
-- [docker commands](DOCKER_COMMANDS.md)
-- [kubernetes service types](SERVICES.md)
+- [kubectl commands](useful_files/KUBECTL_COMMANDS.md)
+- [minikube commands](useful_files/MINIKUBE_COMMANDS.md)
+- [docker commands](useful_files/DOCKER_COMMANDS.md)
+- [kubernetes service types](useful_files/SERVICES.md)
