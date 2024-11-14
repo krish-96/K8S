@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  labels:
+    app: flask-app-deployment-label
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+#        app: flask
+#        The above labels should match the labels in selector else will encounter an issue
+#        The Deployment "flask-deployment" is invalid: spec.template.metadata.labels: Invalid value: map[string]string{"app":"flask"}: `selector` does not match template `labels`
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-container
+          image: krishnabelamkonda/test-repo:k8s_github
+          ports:
+            - containerPort: 80

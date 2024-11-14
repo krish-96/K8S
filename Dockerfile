@@ -13,6 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of your application code into the container at /app
 COPY app.py .
 COPY logger_service ./logger_service
+COPY util.py ./util.py
+COPY ReleaseNotes ./ReleaseNotes
 
 # Make port 80 available to the world outside this container
 EXPOSE 5000

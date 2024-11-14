@@ -2,7 +2,7 @@ import logging
 
 # Configure logging
 # Create handlers for file and console
-file_handler = logging.FileHandler('../app_logs.log')
+file_handler = logging.FileHandler('app_logs.log')
 console_handler = logging.StreamHandler()
 
 # Set the logging format

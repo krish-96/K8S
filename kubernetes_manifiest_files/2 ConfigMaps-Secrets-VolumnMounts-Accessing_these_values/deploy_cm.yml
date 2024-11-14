@@ -1,0 +1,48 @@
+#The below image is create for testing purpose,  anyone can use it
+#krishnabelamkonda/test-repo:k8s_github
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+  labels:
+    app: flask-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+      - name: flask
+        image: krishnabelamkonda/test-repo:k8s_github
+        ports:
+        - containerPort: 5000
+        env:
+          - name: DATABASE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: db-configs
+                key:  DBNAME
+
+          - name: DATABASE_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: db-configs
+                key:  DBHOST
+
+          - name: DATABASE_USER
+            valueFrom:
+              configMapKeyRef:
+                name: db-configs
+                key:  DBUSER
+
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: db-configs
+                key:  DBPASSWORD

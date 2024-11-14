@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: flask-pod-vm-cm #cm-configmaps
+spec:
+  containers:
+    - name: flask-app
+      image: krishnabelamkonda/test-repo:k8s_github
+      ports:
+      - containerPort: 5000
+      volumeMounts:
+        - name: db-configs-volume
+          mountPath: "/config"
+          readOnly: true
+  volumes:
+  - name: db-configs-volume  # volume name
+    configMap:
+      name: db-configs  # name of the ConfigMap file

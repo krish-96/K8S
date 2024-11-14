@@ -1,0 +1,65 @@
+1. Cluster
+    => 2 different types of machines Nodes
+    I. Master Node -> To handle everything in the cluster and manages the resources
+    I. Worker Node -> To run (Y)our actual apps inside Kubernetes cluster
+
+
+Components:
+    Worker Node:
+       I. PODS: Smallest deployable units in K8, it can hold 1 or more containers.
+             1 worker node can have single or multiple Pods.
+      II. Kubelet: IT's an agent running on all the nodes. It gets info from the master node
+                 and decide where should be the pod running and how to manage it
+     III. CRI: Container Runtime Interface
+              Like Docker, containerd
+      IV. Kube-Proxy: To make this pods available to the end users,
+                It's also used for Pod to Pod communication, Load Balancing, Service Proxy
+
+     Along with the above components we can also have AddOns.
+
+    Master Node:
+       I. Api-Server / Kube Api-Server: Suppose if a DevOps engineer wants to create/delete/update a new Pod,
+                    We need to talk to the Api-Server.
+                    We can use Kubernetes command line kubectl or K8's Dashboard, also using SDK
+                    Api-Server will validate the request, if it's ok and user authenticated.
+                    then It'll get the information from other components and give it to the end user(DevOps)
+      II. Scheduler: To assign the Pods to the worker nodes. It'll check for the availability on nodes
+                    and give this info to the Api-Server, this will will be provided to the
+                    Kubelet running on that specific node, and thus it'll create pods on that specific node.
+     Q?: What if one of these pods get error or deleted? -> Next component
+     III. Controller Manager: It's user to manage the entire cluster, and make sure that everything is
+                    identical to the the configurations we mentioned in the manifest files.
+                    For Ex: We defined 4 Pods, but 1 of the Pod deleted, it'll inform API-Server to create one
+                    and Scheduler will check for the availability on nodes and give this info to the API-Server,
+                    it'll pass this info to the Kubelet, it'll create the Pod. And this will repeat continuously.
+
+                    How it's doing this is because by comparing the actual state with desired state.
+      Q?: Where this cluster info or cluster data stored? -> Next component
+      IV. etcd: It's stored inside the etcd, in the form of Key Value pairs.
+                If we want any info from the etcd, the only way is using the API-Server
+
+
+     Along with the above components we can also have AddOns.
+
+
+
+#### Adding Pod CPU and Memory Usage in Dashboard
+
+To add Usage on Kubernetes Dashboard for individual Pod, use the below command
+
+```bash
+minikube addons enable metrics-server
+```
+
+Sample output looks like:
+
+```bash
+╰$ minikube addons enable metrics-server
+
+💡  metrics-server is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+    ▪ Using image registry.k8s.io/metrics-server/metrics-server:v0.7.2
+🌟  The 'metrics-server' addon is enabled
+```
+
+---

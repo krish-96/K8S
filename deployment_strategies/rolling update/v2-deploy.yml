@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  labels:
+    app: flask-app-deployment-label
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: flask-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-container
+          image: krishnabelamkonda/test-repo:k8s_github_v3
+          #          image: krishnabelamkonda/secret-repo:k8s_github_v4
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: dockerhub-creds

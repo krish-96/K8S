@@ -93,4 +93,15 @@
       type: LoadBalancer
     ```
 
+
+```bash
+kubectl logs ingress-nginx-controller-bc57996ff-psw29 -n ingress-nginx
+minikube kubectl -- get all --watch
+
+```
+
+alias kubectl="minikube kubectl --"
+
+
+
 <div style="text-align: right; position: fixed; bottom: 20px; right: 20px;font-size:15px;"><a href="#top">Go2Top</a></div>

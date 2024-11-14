@@ -1,15 +1,22 @@
-from flask import Flask
+import socket
+
+from flask import Flask, request, jsonify
+
+from util import get_yaml_data
 from logger_service import logger
 
 # Log an info message to indicate that the application has started
 logger.info("Application initialized")
 
+# Module Constants
+RELEASE_NOTES_PATH = "ReleaseNotes/Releases.yml"
 app = Flask(__name__)
 
 welcome_message = """
     <h1 style="color:red;text-align:center;padding:25px;">Welcome to Kubernetes - Flask Tutorial!</h1>
     <p style="text-align:center;padding:22px;font-size:22px;">
-        We're going to learn something new from here
+        We're going to learn something new from here, Currently we are on V5 version
+        Added host name
     </p>
     <div style="text-align:center;padding:20px;font-size:20px;">  
         So far we processed 
@@ -17,6 +24,14 @@ welcome_message = """
                 {no_of_hits:02}
             </span>
              {requests}
+    </div>
+    """
+hostname_message = """
+    <div style="text-align:center;padding:20px;font-size:20px;">  
+        From Host:
+            <span style="color:blue;font-size:55px;">
+                {host_name}
+            </span>
     </div>
     """
 
@@ -44,19 +59,53 @@ class Cache(object):
 @app.route('/')
 def welcome_page():
     no_of_hits = Cache().get(increase=True) + 1
-    logger.debug(f"Request received!")
+    logger.debug("Request received!")
     logger.info(f"Processing the {no_of_hits} request")
-    logger.debug(f"Response returned!")
-    return welcome_message.format(no_of_hits=no_of_hits, requests="request" if no_of_hits == 1 else "requests")
+    logger.debug("Response returned!")
+    logger.debug(f"Processing the request from: {request.host}-(host) | {request.host_url}-(host_url) ")
+    logger.debug(f"SubProcess: {socket.gethostname()}")
+    message = welcome_message.format(no_of_hits=no_of_hits, requests="request" if no_of_hits == 1 else "requests") \
+              + hostname_message.format(host_name=socket.gethostname())
+    return message
 
 
 @app.route('/stats')
 def request_count():
-    logger.info(f"Request Count received!")
+    logger.info("Request Count received!")
     no_of_hits = Cache().get()
-    logger.info(f"Processed fetching the count request")
-    logger.debug(f"Returning the count!")
+    logger.info("Processed fetching the count request")
+    logger.debug("Returning the count!")
     return welcome_message.format(no_of_hits=no_of_hits, requests="request" if no_of_hits == 1 else "requests")
+
+
+@app.route('/is_alive')
+def is_service_alive():
+    logger.info('Requested for server "Life" status!')
+    return dict(status=True)
+
+
+@app.route('/is_healthy')
+def is_service_healthy():
+    logger.info('Requested for server "Health" status!')
+    return dict(status=True)
+
+
+@app.route('/current_version')
+def current_version():
+    logger.info('Requested for server "Current Version"!')
+    current_version = get_yaml_data(file_path=RELEASE_NOTES_PATH, property='CurrentRelease')
+    # print(request.host_url, request.host)  # http://192.168.29.78:5000/ 192.168.29.78:5000
+    releases_url = f"{str(request.host_url).split(request.host, 1)[0]}{request.host}/release_notes"
+    return jsonify(currentVersion=current_version, releases=releases_url)
+
+
+@app.route('/release_notes')
+def release_notes():
+    logger.info('Requested for server "Current Version"!')
+    releases = get_yaml_data(file_path=RELEASE_NOTES_PATH, property='Releases')
+    # print(request.host_url, request.host)  # http://192.168.29.78:5000/ 192.168.29.78:5000
+    latest_version = f"{str(request.host_url).split(request.host, 1)[0]}{request.host}/current_version"
+    return jsonify(latest_version=latest_version, currentVersion=releases)
 
 
 if __name__ == '__main__':

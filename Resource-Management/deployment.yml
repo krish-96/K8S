@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resource-manage-deployment
+  labels:
+    app: resource-manage-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: resource-manage-deployment
+      name: personal2ManageResourceManagement
+  template:
+    metadata:
+      labels:
+        app: resource-manage-deployment
+        name: personal2ManageResourceManagement
+    spec:
+      containers:
+        - name: flask-deployment-bg-container
+          image: krishnabelamkonda/test-repo:k8s_github_v5
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

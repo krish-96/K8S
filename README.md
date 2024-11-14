@@ -22,11 +22,11 @@ Both routes incorporate logging for tracking requests, responses, and the curren
 The project is designed to be deployed on Kubernetes. It includes the following YAML files for setting up the Kubernetes
 environment:
 
-- **[Pod Manifest](flask_pod.yaml)**: Defines a single pod to run the Flask application.
-- **[Deployment Manifest](flask_deploy.yaml)**: Configures the deployment for managing replicas and maintaining the
+- **[Pod Manifest](kubernetes_manifiest_files/1 Pod-Deployment-Service-Ingress/flask_pod.yaml)**: Defines a single pod to run the Flask application.
+- **[Deployment Manifest](kubernetes_manifiest_files/1 Pod-Deployment-Service-Ingress/flask_deploy.yaml)**: Configures the deployment for managing replicas and maintaining the
   Flask application in a
   running state.
-- **[Service Manifest](flask_service_node_port.yaml)**: Exposes the Flask application via a `NodePort` service to allow
+- **[Service Manifest](kubernetes_manifiest_files/1 Pod-Deployment-Service-Ingress/flask_service_node_port.yaml)**: Exposes the Flask application via a `NodePort` service to allow
   access from outside the
   Kubernetes cluster.
 

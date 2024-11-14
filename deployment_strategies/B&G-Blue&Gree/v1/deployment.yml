@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment-bg-1
+  labels:
+    app: flask-app-bg-1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-app-bg-1
+  template:
+    metadata:
+      labels:
+        app: flask-app-bg-1
+    spec:
+      containers:
+        - name: flask-deployment-bg-container
+          image: krishnabelamkonda/test-repo:k8s_github
+          ports:
+            - containerPort: 5000

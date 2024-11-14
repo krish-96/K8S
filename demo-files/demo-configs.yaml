@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: game-demo
+  # this will be created in the given namespace
+  # if the namespace is
+  # 1. not specified: default will be used
+  # 2. given namespace if not available, It'll raise an error
+  namespace: common
+data:
+  db_values: KingKrishna
