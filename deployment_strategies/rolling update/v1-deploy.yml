@@ -11,8 +11,8 @@ spec:
       app: flask-app
   strategy:
     rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+      maxSurge: 25%  # Maximum number of extra pods above the desired count
+      maxUnavailable: 25%  # Maximum number of pods that can be unavailable during the update
     type: RollingUpdate
   template:
     metadata:
