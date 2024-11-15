@@ -1,4 +1,4 @@
-CurrentRelease: V6
+CurrentRelease: V7
 Releases:
   - Date: 14 Nov 2024
     Version: V6
@@ -6,3 +6,8 @@ Releases:
       - Added service alive status
       - Added service health status
       - Corrected logging errors
+  - Date: 15 Nov 2024
+    Version: V7
+    Notes:
+      - Added app into separate directory
+      - Added project urls into new url ("/urls")

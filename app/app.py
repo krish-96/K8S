@@ -56,7 +56,7 @@ class Cache(object):
         return current_count
 
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def welcome_page():
     no_of_hits = Cache().get(increase=True) + 1
     logger.debug("Request received!")
@@ -69,8 +69,8 @@ def welcome_page():
     return message
 
 
-@app.route('/stats')
-def request_count():
+@app.route('/stats', methods=["GET"])
+def stats():
     logger.info("Request Count received!")
     no_of_hits = Cache().get()
     logger.info("Processed fetching the count request")
@@ -78,35 +78,57 @@ def request_count():
     return welcome_message.format(no_of_hits=no_of_hits, requests="request" if no_of_hits == 1 else "requests")
 
 
-@app.route('/is_alive')
+@app.route('/is_alive', methods=["GET"])
 def is_service_alive():
     logger.info('Requested for server "Life" status!')
     return dict(status=True)
 
 
-@app.route('/is_healthy')
+@app.route('/is_healthy', methods=["GET"])
 def is_service_healthy():
     logger.info('Requested for server "Health" status!')
     return dict(status=True)
 
 
-@app.route('/current_version')
+@app.route('/current_version', methods=["GET"])
 def current_version():
     logger.info('Requested for server "Current Version"!')
     current_version = get_yaml_data(file_path=RELEASE_NOTES_PATH, property='CurrentRelease')
     # print(request.host_url, request.host)  # http://192.168.29.78:5000/ 192.168.29.78:5000
     releases_url = f"{str(request.host_url).split(request.host, 1)[0]}{request.host}/release_notes"
-    return jsonify(currentVersion=current_version, releases=releases_url)
+    return jsonify(currentVersion=current_version, earlierReleases=releases_url)
 
 
-@app.route('/release_notes')
+@app.route('/release_notes', methods=["GET"])
 def release_notes():
     logger.info('Requested for server "Current Version"!')
     releases = get_yaml_data(file_path=RELEASE_NOTES_PATH, property='Releases')
     # print(request.host_url, request.host)  # http://192.168.29.78:5000/ 192.168.29.78:5000
     latest_version = f"{str(request.host_url).split(request.host, 1)[0]}{request.host}/current_version"
-    return jsonify(latest_version=latest_version, currentVersion=releases)
+    return jsonify(currentVersion=latest_version, allReleases=releases)
 
+@app.route('/metrics', methods=["GET"])
+def server_metrics():
+    logger.info('Requested for server "Current Version"!')
+    releases = get_yaml_data(file_path=RELEASE_NOTES_PATH, property='Releases')
+    # print(request.host_url, request.host)  # http://192.168.29.78:5000/ 192.168.29.78:5000
+    current_version = get_yaml_data(file_path=RELEASE_NOTES_PATH, property='CurrentRelease')
+    latest_version = f"{str(request.host_url).split(request.host, 1)[0]}{request.host}/current_version"
+    releases_url = f"{str(request.host_url).split(request.host, 1)[0]}{request.host}/release_notes"
+    return jsonify(currentVersionRelease=latest_version, currentVersion=current_version, allReleases=releases_url, totalRelases=len(releases) if releases else 0)
+
+@app.route("/urls", methods=["GET"])
+def list_urls():
+    """Returns a JSON response with all available URLs in the app."""
+    routes = []
+    for rule in app.url_map.iter_rules():
+        if "GET" in rule.methods:  # Include only routes accessible via GET
+            routes.append({
+                "endpoint": rule.endpoint,
+                "methods": list(rule.methods),
+                "url": str(rule)
+            })
+    return jsonify({"available_urls": routes})
 
 if __name__ == '__main__':
     logger.info("Application running...")
