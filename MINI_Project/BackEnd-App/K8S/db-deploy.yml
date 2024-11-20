@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deploy
+  labels:
+    app: postgres-deployment
+    env: Development
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      database: postgres
+  template:
+    metadata:
+      labels:
+        database: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14
+          ports:
+            # Default port is 5432, we changed & this should be used by the application
+            # It's Taken from the config file
+            - containerPort: 5435
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres
+                  key: db_name
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres
+                  key: db_host
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres
+                  key: db_user
+             # containerport also should be same
+            - name: PGPORT  # Env Var name for postgres docker runs on # overriding this will give tell psql to listen
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres
+                  key: db_port
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: portgres-secrets
+                  key: db_password

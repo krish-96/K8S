@@ -1,6 +1,7 @@
 .docker_creds
 
 dockerImageBuiler.sh
+createPushImg.sh
 
 app_logs.log
 

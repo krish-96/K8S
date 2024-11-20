@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres
+data:
+  db_name: "flask-app"
+  db_host: "localhost"
+  db_user: "flask-user"
+  db_port: "5435"

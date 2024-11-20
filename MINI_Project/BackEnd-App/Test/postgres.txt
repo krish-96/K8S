@@ -1,0 +1,31 @@
+╭─krishna@cloudking in ~
+╰$ kubectl exec -it postgres-deploy-6679b47c44-tntv7 -- psql -U flask-user flask-app
+E1119 10:41:50.964416   70142 websocket.go:296] Unknown stream id 1, discarding message
+                                                                                       psql (14.14 (Debian 14.14-1.pgdg120+1))
+Type "help" for help.
+
+flask-app=# select * from hello;;
+ name | message
+------+---------
+(0 rows)
+
+flask-app=#
+
+
+
+
+After pod restart or deleted and created new:
+╭─krishna@cloudking in ~/Desktop/K8S/MINI_Project/BackEnd-App/K8S on Dev ✘
+╰$ kubectl exec -it postgres-deploy-6679b47c44-hjdjk  -- psql -U flask-user flask-app
+psql (14.14 (Debian 14.14-1.pgdg120+1))
+Type "help" for help.
+
+flask-app=# selct * from hello;
+ERROR:  syntax error at or near "selct"
+LINE 1: selct * from hello;
+        ^
+flask-app=# select * from hello;
+ERROR:  relation "hello" does not exist
+LINE 1: select * from hello;
+                      ^
+flask-app=#

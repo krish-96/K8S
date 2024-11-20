@@ -1,0 +1,23 @@
+Build and Deploy
+Build Docker Images
+
+
+cd backend
+docker build -t backend-image:latest .
+Start Minikube
+
+
+minikube start
+Apply Kubernetes Configurations
+
+
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/secret.yaml
+kubectl apply -f k8s/db-deployment.yaml
+kubectl apply -f k8s/db-service.yaml
+kubectl apply -f k8s/backend-deployment.yaml
+kubectl apply -f k8s/backend-service.yaml
+Access the Application
+
+
+minikube service backend-service --url

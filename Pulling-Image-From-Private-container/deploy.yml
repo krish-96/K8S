@@ -5,7 +5,7 @@ metadata:
   labels:
     app: private-repo-deployment
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: private-repo-pod
@@ -16,13 +16,15 @@ spec:
     spec:
       containers:
         - name: private-repo-container
-          image: krishnabelamkonda/secret-repo:k8s_github_v6
+          image: krishnabelamkonda/secret-repo:k8s_github_v4
           ports:
             - containerPort: 5000
           resources:
             requests:
               memory: "64Mi"
-              cpu: "250m"
+              cpu: "125m"
             limits:
               memory: "128Mi"
-              cpu: "500m"
+              cpu: "250m"
+      imagePullSecrets:
+      - name: dockerhub-creds

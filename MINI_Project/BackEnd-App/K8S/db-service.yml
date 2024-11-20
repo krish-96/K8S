@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  type: ClusterIP
+  selector:
+    database: postgres
+  ports:
+#    Check the config files
+#  Have give port and targetPort same because I'm taking this from congfig file
+#  By default psql docker will listen to 5432
+#  we changed that value from config and set containerPort also same i.e, 5435
+#  so it should be same
+#  Note: If we wanna change this, we need to make sure that
+#       the db port in BackEnd env varialbles should change
+    - port: 5435  # Port to communicate from outside
+      targetPort: 5435  # Container running port

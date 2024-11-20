@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend
+spec:
+  volumes:
+    - name: pod-resources
+    #    For config maps storage
+    - name: proj-master-volume  # Just a placeholder for the volume name
+      configMap:
+        name: project-master-data  # Just a placeholder for config name
+  containers:
+    - name: app
+      image: krishnabelamkonda/test-repo:k8s_github_v5
+      volumeMounts:
+        - name: pod-resources
+          mountPath: "/CustomVolume(PersistVolume)"
+          readOnly: true
+        - name: proj-master-volume
+          mountPath: "/configs"
+          readOnly: true
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+          ephemeral-storage: "512Mi"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+          ephemeral-storage: "1Gi"
+
+#        - name: proj-master-volume
+#          mountPath: "/configs"
+#          readOnly: true
+#        -
+#    - name: log-aggregator
+#      image: krishnabelamkonda/test-repo:k8s_github_v5
+#      resources:
+#        requests:
+#          memory: "64Mi"
+#          cpu: "250m"
+#        limits:
+#          memory: "128Mi"
+#          cpu: "500m"
+---

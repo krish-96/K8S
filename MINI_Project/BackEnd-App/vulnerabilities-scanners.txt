@@ -1,0 +1,21 @@
+If you're looking for open-source vulnerability scanners that are similar to Qualys, here are some excellent options:
+
+OpenVAS: A powerful and widely used open-source vulnerability scanner that provides comprehensive scanning capabilities and is regularly updated with new vulnerability data.
+
+Nmap: While primarily a network discovery tool, Nmap can also be used for vulnerability scanning through its scripting engine, allowing users to detect vulnerabilities in services running on discovered hosts.
+
+OWASP ZAP: This is an open-source web application security scanner that can automatically find security vulnerabilities in web applications during development and testing.
+
+Nikto: A web server scanner that tests for various vulnerabilities, including outdated server software and insecure configurations.
+
+W3AF: A web application attack and audit framework that helps identify and exploit vulnerabilities in web applications.
+
+Arachni: A feature-rich web application security scanner that is designed to identify security issues in web applications.
+
+Clair: An open-source project that provides static analysis of container images to help identify known vulnerabilities.
+
+Trivy: A simple and comprehensive vulnerability scanner for containers and other artifacts, designed to detect vulnerabilities in OS packages and application dependencies.
+
+Nuclei: A fast and flexible tool for scanning and identifying vulnerabilities, allowing users to create custom templates for specific checks.
+
+Lynis: A security auditing tool for Unix-based systems that performs in-depth security assessments and compliance checks

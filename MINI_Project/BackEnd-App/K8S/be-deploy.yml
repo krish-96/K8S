@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deploy
+  labels:
+    app: flask-app-deployment
+    env: Development
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      application: flask-app
+  template:
+    metadata:
+      labels:
+        application: flask-app
+    spec:
+      containers:
+        - name: flask-app-container
+#          Just change the image whenever new image create, K8S will take care of everything
+#          image: krishnabelamkonda/test-repo:v1
+          image: krishnabelamkonda/test-repo:v18
+          ports:
+            - containerPort: 5000  # Default port is 5432, we changed & this should be used by the application
+          env:
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres
+                  key: db_name
+#            - name: DB_HOST
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: postgres
+#                  key: db_host
+#            Commented the above one because, it's not connecting to postgres
+            - name: DB_HOST
+              value: postgres-service  # Service name created for the postgres
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres
+                  key: db_user
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres
+                  key: db_port
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: portgres-secrets
+                  key: db_password
+#          To set the resources limit
+          resources:
+            # Max usage
+            limits:
+              cpu: 1
+              memory: "1024Mi"
+            # Min request
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+# To set the volumeMounts:
+          volumeMounts:
+            - mountPath: "/var/log/flask/"  # Same as the app using location, so that the app data will be persisted
+              name: flask-app-pv-storage
+      volumes:
+        - name: flask-app-pv-storage
+          persistentVolumeClaim:
+            claimName: flask-app-pv-claim
